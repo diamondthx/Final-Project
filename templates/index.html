@@ -1,0 +1,732 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+    <link href="/static/css/indeX.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css"/>
+    <meta charset="UTF-8">
+    <script src="/static/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/js/echarts.min.js"></script>
+    <script src="/static/js/d3.min.js"></script>
+    <script type="text/javascript"
+            src="https://api.map.baidu.com/api?type=webgl&v=1.0&ak=X38hkl1sDkdNMAHrvrALfPqaVC9Xrith"></script>
+    <title>Visualization of traffic flow data in Chengdu</title>
+
+</head>
+<body>
+<div class="data_bodey">
+    <div class="index_tabs">
+        <div class="inner" style="height: 100%;">
+            <div class="left_cage">
+                <div class="dataAllBorder01 cage_cl" style="margin-top: 9% !important; height: 24%;">
+                    <div id="license" class="dataAllBorder02 video_cage">
+                    </div>
+                </div>
+                <div class="dataAllBorder01 cage_cl" style="margin-top: 1.5% !important; height: 38%;">
+                    <div id="line" class="dataAllBorder02">
+                    </div>
+                </div>
+                <div class="dataAllBorder01 cage_cl"
+                     style="margin-top: 1.5% !important; height: 32%; position: relative;">
+                    <div id="bar" class="dataAllBorder02" style="padding: 1.2%; overflow: hidden">
+                    </div>
+                </div>
+            </div>
+            <div class="center_cage">
+                <div class="dataAllBorder01 cage_cl"
+                     style="margin-top: 3.5% !important; height: 62.7%; position: relative;">
+                    <div class="dataAllBorder02" style="position: relative; overflow: hidden;">
+                        <div class="map" id="map">
+                            <div id="center1"
+                                 style="width: 49.5%; height: 49.5%;float: left;border:1px solid #2b8bc6;">
+                            </div>
+                            <div id="center2"
+                                 style="width: 49.5%; height: 49.5%;float: left;border:1px solid #2b8bc6;">
+                                <div id="center2_1" style="width: 100%;height: 7%">
+                                    <label for="check2">Enter the date(range: 2018 year):</label><input id="check2" type="date">
+                                    <button onclick="input()">Search</button>
+                                </div>
+                                <div id="center2_2" style="width: 100%;height: 90%">The average speed of vehicles in Chengdu</div>
+                            </div>
+                            <div id="center3"
+                                 style="width: 49.5%; height: 49.5%;float: left;border:1px solid #2b8bc6;">
+                                <div id="center3_1" style="width: 100%;height: 7%">
+                                    <label for="check3">Enter the date(range: 2018 year):</label><input id="check3" type="date">
+                                    <button onclick="input1()">Search</button>
+                                </div>
+                                <div id="center3_2" style="width: 100%;height: 90%">Chengdu Traffic Index</div>
+                            </div>
+                            <div id="center4"
+                                 style="width: 49.5%; height: 49.5%;float: left;border:1px solid #2b8bc6;">
+                                <div id="center4_1" style="width: 100%;height: 7%">
+                                    <label for="check4">Enter the date(range：2019.1）:</label><input id="check4" type="date">
+                                    <button onclick="input2()">Search</button>
+                                </div>
+                                <div id="center4_2" style="width: 100%;height: 90%">Forecast of average speed in chengdu</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right_cage">
+                <div class="dataAllBorder01 cage_cl" style="margin-top: 9% !important; height: 24%">
+                    <div id="number" class="dataAllBorder02">
+                         <video class="video_cage" autoplay="autoplay" loop="loop"><source src="/static/video/test_mv02.mov"></video>
+                        <div class="analysis">
+                        </div>
+                    </div>
+                </div>
+                <div class="dataAllBorder01 cage_cl check_increase" style=" margin-top: 1.5% !important;">
+                    <div class="dataAllBorder02 over_hide dataAllBorder20" id="right2">
+                    </div>
+                </div>
+                <div class="dataAllBorder01 cage_cl "
+                     style="margin-top: 1.5% !important; height: 32%; position: relative;">
+                    <div class="dataAllBorder02 over_hide" style="padding: 1.2%;" id="right3">
+                        <div class="analysis"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    var chartDom = document.getElementById('license');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+        title: {
+            text: 'Number of cars and drivers in chengdu'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        legend: {
+            data: ['Car ownership', 'Number of drivers'],
+            top: '14%',
+            left: '20%',
+            color: 'rgb(255,255,255)',
+        },
+        grid: {
+            bottom: '10%',
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: ['2015', '2016', '2017', '2018', '2019'],
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: 'Unit:10000 cars',
+                min: 0,
+                max: 800,
+            },
+            {
+                type: 'value',
+                name: 'Unit:10000 people',
+                min: 0,
+                max: 800,
+
+            }
+        ],
+        series: [
+            {
+                name: 'Car ownership',
+                type: 'bar',
+                data: [347, 412, 452, 487.52, 519]
+            },
+            {
+                name: 'Number of drivers',
+                type: 'line',
+                yAxisIndex: 1,
+                data: [533.04, 597.4, 671.89, 728.74, 781.35]
+            }
+        ]
+    };
+
+    option && myChart.setOption(option);
+
+</script>
+
+<script>
+    var test = [];
+    var date = [];
+    var allChange = [];
+    var allPass = [];
+    d3.csv("/static/data/metro.csv", function (csvdata) {
+        return csvdata;
+    }).then(function (data) {
+        for (var i = 0; i < data.length; i++) {
+            test.push(parseFloat(data[i].allPass));
+            if (test[i] === test[i]) {
+                allPass.push(test[i]);
+            }
+        }
+
+        for (var i = 0; i < data.length; i ++) {
+            date.push(data[i].date);
+        }
+
+        var dom = document.getElementById("line");
+        var myChart = echarts.init(dom);
+        var count = 0;
+        var option;
+        var dataShow = [];
+        for (var i = 0; i < 51; i++) {
+            dataShow.push([date[i], allPass[i]]);
+        }
+
+        option = {
+            title: {
+                text: 'Passenger volume of Chengdu Metro'
+            },
+            grid: {
+                left: '15%',
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    animation: false
+                }
+            },
+            xAxis: {
+                type: 'time',
+                splitLine: {
+                    show: true
+                }
+            },
+            yAxis: {
+                scale:true,
+                type: 'value',
+                boundaryGap: [0, '100%'],
+                splitLine: {
+                    show: true
+                }
+            },
+            series: [{
+                name: 'Subway passenger volume',
+                type: 'line',
+                showSymbol: true,
+                hoverAnimation: true,
+                data: dataShow
+            }]
+        };
+
+        setInterval(function () {
+            if (count === 102) {
+                dataShow = []
+                count = 0
+                for (var i = 0; i < 51; i++) {
+                    dataShow.push([date[i], allPass[i]]);
+
+                }
+                myChart.setOption({
+                    series: [{
+                        data: dataShow
+                    }]
+                });
+            } else {
+                for (var i = 0; i < 2; i++) {
+                    dataShow.shift();
+                    dataShow.push([date[count + 51], allPass[count + 51]]);
+                    count++;
+                }
+                myChart.setOption({
+                    series: [{
+                        data: dataShow
+                    }]
+                })
+            }
+        }, 2000);
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+    })
+
+
+</script>
+
+<script type="text/javascript">
+    var date1 = [];
+    var allPass1 = [];
+    d3.csv("/static/data/buspassager.csv", function (csvdata1) {
+        return csvdata1;
+    }).then(function (data1) {
+        for (var i = 0; i < data1.length; i++) {
+            date1.push(data1[i].date);
+            allPass1.push(data1[i].passager);
+        }
+
+
+        var dom = document.getElementById("bar");
+        var myChart = echarts.init(dom);
+        var count1 = 0;
+        var option;
+        var dataShow1 = [];
+        for (var i = 0; i < 41; i++) {
+            dataShow1.push([date1[i], allPass1[i]]);
+        }
+
+        option = {
+            title: {
+                text: 'Bus passenger volume in Chengdu'
+            },
+            grid: {
+                left: '15%',
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    animation: false
+                }
+            },
+            xAxis: {
+                type: 'time',
+                splitLine: {
+                    show: true
+                }
+            },
+            yAxis: {
+                name:'Unit: 10 thousands',
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value}'
+                },
+                boundaryGap: [0, '100%'],
+                splitLine: {
+                    show: true
+                }
+            },
+            series: [{
+                name: 'Bus ridership',
+                type: 'bar',
+                showSymbol: true,
+                hoverAnimation: true,
+                data: dataShow1
+            }]
+        };
+
+        setInterval(function () {
+            if (count1 === 36) {
+                dataShow1 = []
+                count1 = 0
+                for (var i = 0; i < 50; i++) {
+                    dataShow1.push([date1[i], allPass1[i]]);
+
+                }
+                myChart.setOption({
+                    series: [{
+                        data: dataShow1
+                    }]
+                });
+            } else {
+                for (var i = 0; i < 2; i++) {
+                    dataShow1.shift();
+                    dataShow1.push([date1[count1 + 41], allPass1[count1 + 41]]);
+                    count1++;
+                }
+                myChart.setOption({
+                    series: [{
+                        data: dataShow1
+                    }]
+                })
+            }
+        }, 2000);
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+    })
+
+</script>
+
+<script type="text/javascript">
+    var map = new BMapGL.Map("center1");    // 创建Map实例
+    map.centerAndZoom(new BMapGL.Point(104.06, 30.67), 11);  // 初始化地图,设置中心点坐标和地图级别
+    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+    map.setTrafficOn(); // 开启路况
+
+</script>
+
+
+<script>
+    var batch_date
+
+    function input1() {
+        var batch_date = document.getElementById("check3").value;
+        var tti = [];
+        var batch_time = [];
+        d3.csv("/static/data/cdtti.csv", function (csvdata2) {
+            return csvdata2;
+        }).then(function (data2) {
+            var batch_date9=batch_date.replace(/-/,"/")
+            var batch_date10=batch_date9.replace(/-/,"/")
+            var crr = batch_date10.split("0")
+            crr[0]="20"
+            var batch_date11=crr.join("")
+            for (var i = 0; i < data2.length; i++) {
+                if (data2[i].batch_date === batch_date11) {
+                    batch_time.push(data2[i].batch_time);
+                    tti.push(data2[i].tti);
+                }
+            }
+            var chartDom = document.getElementById('center3_2');
+            var myChart = echarts.init(chartDom);
+            var option;
+            var dataShow1 = []
+            for (var i = 0; i < tti.length; i++) {
+                dataShow1.push([batch_time[i], tti[i]])
+            }
+            myChart.setOption(option = {
+                title: {
+                    left: 'center',
+                    text: 'Chengdu Traffic Index(' + batch_date + ')'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                grid: {
+                    left: '10%',
+                    bottom: '10%'
+                },
+                xAxis: {
+                    name: 'time',
+                    data: batch_time
+                },
+                yAxis: {
+                    name: 'traffic index',
+                    scale: true
+                },
+                visualMap: {
+                    show: false,
+                    top: 50,
+                    right: 10,
+                    pieces: [{
+                        gt: 1,
+                        lte: 1.3,
+                        color: '#93CE07'
+                    }, {
+                        gt: 1.3,
+                        lte: 1.5,
+                        color: '#FC7D02'
+                    }, {
+                        gt: 1.5,
+                        lte: 1.7,
+                        color: '#FD0100'
+                    }, {
+                        gt: 1.7,
+                        color: '#AC3B2A'
+                    }],
+                    outOfRange: {
+                        color: '#FD0100'
+                    }
+                },
+                series: {
+                    name: 'Chengdu traffic index',
+                    type: 'line',
+                    data: tti,
+                    markLine: {
+                        silent: true,
+                        lineStyle: {
+                            color: '#333'
+                        },
+                        data: [{
+                            yAxis: 1
+                        }, {
+                            yAxis: 1.3
+                        }, {
+                            yAxis: 1.5
+                        }, {
+                            yAxis: 1.7
+                        }]
+                    }
+                }
+            });
+
+
+            option && myChart.setOption(option);
+
+
+        })
+    }
+
+</script>
+
+<script>
+    var batch_date1
+
+    function input() {
+        var batch_date1 = document.getElementById("check2").value;
+        var speed = [];
+        var batch_time1 = [];
+        d3.csv("/static/data/cdtti.csv", function (csvdata3) {
+            return csvdata3;
+        }).then(function (data3) {
+            var batch_date6=batch_date1.replace(/-/,"/")
+            var batch_date7=batch_date6.replace(/-/,"/")
+            var brr = batch_date7.split("0")
+            brr[0]="20"
+            var batch_date8=brr.join("")
+            for (var i = 0; i < data3.length; i++) {
+                if (data3[i].batch_date === batch_date8) {
+                    batch_time1.push(data3[i].batch_time);
+                    speed.push(data3[i].speed);
+                }
+            }
+            var chartDom = document.getElementById('center2_2');
+            var myChart = echarts.init(chartDom);
+            var option;
+
+            option = {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                title: {
+                    left: 'center',
+                    text: 'Average Speed in Chengdu(' + batch_date1 + ')',
+                },
+                xAxis: {
+                    type: 'category',
+                    name: 'time',
+                    boundaryGap: true,
+                    data: batch_time1
+                },
+                yAxis: {
+                    type: 'value',
+                    name: 'speed（km/h）',
+                    boundaryGap: [0, '100%'],
+                    scale: true
+                },
+                dataZoom: [{
+                    type: 'inside',
+                    start: 0,
+                    end: 10
+                }, {
+                    start: 0,
+                    end: 10
+                }],
+                series: [
+                    {
+                        name: 'Average speed',
+                        type: 'line',
+                        symbol: 'none',
+                        sampling: 'lttb',
+                        itemStyle: {
+                            color: 'rgb(255, 70, 131)'
+                        },
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgb(255, 158, 68)'
+                            }, {
+                                offset: 1,
+                                color: 'rgb(255, 70, 131)'
+                            }])
+                        },
+                        data: speed
+                    }
+                ]
+            };
+            option && myChart.setOption(option);
+        })
+    }
+</script>
+
+<script>
+    var chartDom = document.getElementById('right2');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+        title: {
+            text: "Predicted value of metro passenger volume"
+        },
+        grid: {
+            left: '17%'
+        },
+        xAxis: {
+            name: 'date',
+            type: 'category',
+            data: ['2019-9-29', '2019-9-30', '2019-10-01', '2019-10-02', '2019-10-03', '2019-10-04', '2019-10-05', '2019-10-06', '2019-10-07']
+        },
+        yAxis: {
+            name: 'person',
+            scale: true,
+            type: 'value',
+
+        },
+        tooltip: {
+            show: true,
+            trigger: 'axis'
+        },
+        series: [{
+            data: [2429816, 2217681, 2154618, 2330325, 2827167, 3110629, 2786184, 2269070, 2085949
+            ],
+            type: 'line'
+        }]
+    };
+
+    option && myChart.setOption(option);
+
+
+</script>
+
+<script>
+    var chartDom = document.getElementById('right3');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+        title: {
+            text: "Predicted value of bus passenger volume"
+        },
+        grid: {
+            left: '17%'
+        },
+        xAxis: {
+            name: 'date',
+            type: 'category',
+            data: ['2019-9-17', '2019-9-18', '2019-9-19', '2019-9-20', '2019-9-21', '2019-9-22', '2019-9-23']
+        },
+        yAxis: {
+            name: '(Unit:thousand people)',
+            scale: true,
+            type: 'value',
+
+        },
+        tooltip: {
+            show: true,
+            trigger: 'axis'
+        },
+        series: [{
+            data: [349.6233579, 328.2170769, 254.6184998, 132.503455, 175.8745891, 200.207638, 288.4221508],
+            type: 'bar'
+        }]
+    };
+
+    option && myChart.setOption(option);
+
+</script>
+<script>
+    var batch_date2
+
+    function input2() {
+        var batch_date2 = document.getElementById("check4").value;
+        var speed1 = [];
+        var batch_time2 = [];
+        d3.csv("/static/data/speedpredict.csv", function (csvdata4) {
+            return csvdata4;
+        }).then(function (data4) {
+            for (var i = 0; i < data4.length; i++) {
+                if (data4[i].batch_date === batch_date2) {
+                    batch_time2.push(data4[i].batch_time);
+                    speed1.push(data4[i].speed);
+                }
+            }
+            var chartDom = document.getElementById('center4_2');
+            var myChart = echarts.init(chartDom);
+            var option;
+
+            option = {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                title: {
+                    left: 'center',
+                    text: 'Predicted average speed of chengdu(' + batch_date2 + ')',
+                },
+                xAxis: {
+                    type: 'category',
+                    name: 'time',
+                    boundaryGap: true,
+                    data: batch_time2
+                },
+                yAxis: {
+                    type: 'value',
+                    name: 'speed（km/h）',
+                    boundaryGap: [0, '100%'],
+                    scale: true
+                },
+                dataZoom: [{
+                    type: 'inside',
+                    start: 0,
+                    end: 10
+                }, {
+                    start: 0,
+                    end: 10
+                }],
+                series: [
+                    {
+                        name: 'Average speed',
+                        type: 'line',
+                        symbol: 'none',
+                        sampling: 'lttb',
+                        itemStyle: {
+                            color: 'rgb(255, 70, 131)'
+                        },
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgb(255, 158, 68)'
+                            }, {
+                                offset: 1,
+                                color: 'rgb(255, 70, 131)'
+                            }])
+                        },
+                        data: speed1
+                    }
+                ]
+            };
+            option && myChart.setOption(option);
+        })
+    }
+</script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

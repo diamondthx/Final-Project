@@ -1,0 +1,195 @@
+.dataAll {
+    width: 100%;
+    height: 33%;
+    background-color: rgba(2, 8, 23, 0.1);
+    float: left;
+    border-radius: 10px;
+}
+
+.dataAllNo01 {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(2, 8, 23, 0.1);
+    float: left;
+    border-radius: 10px;
+}
+
+.dataAllNo02 {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(2, 8, 23, 0.1);
+    float: left;
+    border-radius: 10px;
+}
+
+.dataAll01 {
+    width: 100%;
+    height: 66%;
+    background-color: rgba(2, 8, 23, 0.1);
+    float: left;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.dataAll02 {
+    width: 100%;
+    height: 33%;
+    background-color: rgba(2, 8, 23, 0.1);
+    float: left;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.dataAllBorder01 {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: 1px #0174f5 solid;
+    padding: 1px;
+    box-sizing: border-box;
+}
+
+.dataAllBorder02 {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border: 2px solid #016ae0;
+    border-radius: 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 0 !important;
+}
+
+html {
+    min-width: 1440px;
+    min-height: 700px;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    font-size: 100%;
+    overflow: auto;
+}
+
+.data_bodey {
+    width: 100%;
+    height: 105%;
+    background-color: rgb(255, 255, 255);
+    background-size: 100% 100%;
+    position: absolute;
+}
+
+.index_tabs {
+    width: 100%;
+    height: 88%;
+    position: absolute;
+}
+
+html {
+    overflow: hidden;
+}
+
+.left_cage {
+    width: 22%;
+    height: 100%;
+    margin-left: 0.3%;
+    float: left;
+}
+
+.center_cage {
+    width: 55.1%;
+    height: 152.3%;
+    margin-left: 0.3%;
+    float: left;
+}
+
+.right_cage {
+    width: 22%;
+    height: 100%;
+    margin-left: 0.3%;
+    float: right;
+}
+
+.cage_cl {
+    background-color: rgba(2, 8, 23, 0.1);
+}
+
+.video_cage {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+
+}
+
+.quarter-div {
+    width: 50%;
+    height: 50%;
+    float: left;
+}
+
+
+.over_hide {
+    overflow: hidden;
+}
+
+.map {
+    width: 100%;
+    height: 100%;
+    border-radius: 0px 0px 8px 8px;
+    position: relative;
+    overflow: hidden;
+    cursor: move;
+}
+
+
+.analysis {
+    width: 100%;
+    height: 20%;
+    padding-top: 2%;
+    text-align: left;
+    text-indent: 0.7em;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+
+.check_increase {
+    height: 38%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
